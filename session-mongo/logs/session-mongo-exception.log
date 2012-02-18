@@ -1,0 +1,1 @@
+[18-Feb-2012 13:03:58] Error Exception : Mongo collection not ready for use., triggered at :/var/web/test/session-mongo/Mongodb/Manager.php, line :73
