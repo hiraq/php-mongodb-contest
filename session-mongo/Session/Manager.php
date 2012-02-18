@@ -92,7 +92,21 @@ final class Session_Manager {
     }
     
     public function gc($maxlifetime) {
-        echo $maxlifetime;
+        
+        $collection = $this->_mongo->get_collection();
+        $cursor = $collection->find();
+        
+        foreach($cursor as $doc) {
+            
+            $session_time = $doc['session_time'] + $maxlifetime;
+            $session_id = $doc['session_id'];
+            
+            if($session_time < time()) {
+                $this->destroy($session_id);
+            }
+            
+        }
+        
     }
     
 }
