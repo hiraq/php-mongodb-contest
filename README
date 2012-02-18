@@ -1,1 +1,38 @@
-test
+This php library to manage your session. This library made to follow contest,
+here you can see more detail about contest, http://phpmongobook.org/contest/.
+
+Example to use:
+define('ROOT',dirname(__FILE__));
+define('DS',DIRECTORY_SEPARATOR);
+
+set_include_path(get_include_path().PATH_SEPARATOR.ROOT.DS.'session-mongo');
+
+require_once 'SessionMongo.php';
+
+/*
+ * Set logging and exception
+ */
+SessionMongoLog::set_log_dir(ROOT.DS.'session-mongo'.DS.'logs'.DS);
+SessionMongoException::set_error(SessionMongoException::SHOW_ERRORS);
+
+/*
+ * init SessionMongo
+ */
+try{        
+    
+    Mongodb_Manager::set_mongo_db('session-mongo');
+    Mongodb_Manager::set_mongo_collection('sessions');
+    
+    SessionMongo::init();    
+    SessionMongo::start();    
+        
+    $_SESSION['testing_key'] = array('testing','tes2');    
+    $_SESSION['testing2']    = 'testing string 2';
+    
+    echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+    
+}catch(SessionMongoException $e){    
+    $e->mongo_exception();
+}
